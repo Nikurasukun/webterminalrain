@@ -1,0 +1,90 @@
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <span id="matrixbox">
+    </span>
+
+    <script>
+        function getrandomstring(numberofcharacters){
+            var randomstring = "";
+            for(i = 0; i < numberofcharacters - 1; i++){
+                rannummber = Math.floor(Math.random() * 100);
+                if(rannummber >= 0 && rannummber < 20){
+                    randomstring+="1";
+                } else if (rannummber >= 25 && rannummber < 40) {
+                    randomstring+="0";
+                } else {
+                    randomstring+="&nbsp;";
+                }
+            }
+            return randomstring;
+        }
+
+        function refreshmatrix(){
+            rows = document.getElementById("matrixbox").getElementsByTagName('span');
+            //alert(rows[0].innerHTML.replace(/&nbsp;/g, "2"));
+            for(i = 0; i < rows.length; i++){
+                matrixline = Array.from(rows[i].innerHTML.replace(/&nbsp;/g, "2"));
+                linelen = matrixline.length;
+                for(j = matrixline.length; j > 0; j--){
+                    //alert(i.toString() + j.toString() + string.toString())
+                    matrixline[j] = matrixline[j-1];
+                }
+                rannummber = Math.floor(Math.random() * 100);
+                if(rannummber >= 0 && rannummber < 20){
+                    matrixline[0] = "1";
+                } else if (rannummber >= 25 && rannummber < 40) {
+                    matrixline[0] = "0";
+                } else {
+                    matrixline[0] = "2";
+                }
+                matrixline.pop();
+                rows[i].innerHTML = matrixline.join("").replace(/2/g, "&nbsp;");
+            }
+        }
+
+        function generateMatrix() {
+            var matrixbox = document.getElementById("matrixbox");
+
+            var spanline = document.createElement("SPAN");
+            spanline.innerHTML = "1";
+            matrixbox.appendChild(spanline);
+            var characterHeight = matrixbox.getElementsByTagName('span')[0].offsetHeight;
+            //alert(characterHeight);
+            howmanycharacter = window.innerHeight / characterHeight;
+            //alert(howmanycharacter);
+            matrixbox.innerHTML = "";
+
+
+            var allspans = matrixbox.children;
+            var totalwidth = 0;
+            for (var i = 0; i < allspans.length; i++) {
+                totalwidth += allspans[i].offsetWidth;
+            }
+            //alert(totalwidth);
+
+            while(totalwidth < window.innerWidth){
+                var spanline = document.createElement("SPAN");
+                spanline.innerHTML = getrandomstring(howmanycharacter);
+                matrixbox.appendChild(spanline);
+                
+                var allspans = matrixbox.children;
+                totalwidth = 0;
+                for (var i = 0; i < allspans.length; i++) {
+                    totalwidth += allspans[i].offsetWidth;
+                }
+            }
+            //alert(totalwidth);
+            //alert(window.innerWidth);
+        }
+        window.onload = generateMatrix;
+        setInterval(refreshmatrix, 250);
+    </script>
+</body>
+</html>
