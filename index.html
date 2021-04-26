@@ -57,7 +57,11 @@
             matrixbox.appendChild(spanline);
             var characterHeight = matrixbox.getElementsByTagName('span')[0].offsetHeight;
             //alert(characterHeight);
-            howmanycharacter = window.innerHeight / characterHeight;
+            var multiplicator = window.devicePixelRatio;
+            if(devicePixelRatio != 1 ){
+                multiplicator = window.devicePixelRatio * 2;
+            }
+            howmanycharacter = window.innerHeight / characterHeight * multiplicator + 2;
             //alert(howmanycharacter);
             matrixbox.innerHTML = "";
 
